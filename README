@@ -1,0 +1,94 @@
+			   EE450 Socket Programming Project README
+—————————————————————————————————————————————————————————————————————————————————————————-
+
+				Name: Surbhi Goel 
+
+				Student ID: 7006122841
+
+				Session: 3
+
+—————————————————————————————————————————————————————————————————————————————————————————
+
+What you have done in the assignment
+
+In this socket programming project, I have implemented the required functionalities as per the given specifications for a client, AWS server and other backend servers i.e A/B/C.
+From the initial stage only, I made files and run it on NUNKI server and tested my program as well. It worked as per the given specifications.
+
+—————————————————————————————————————————————————————————————————————————————————————————
+
+2. What your code files are and what each one of them does. 
+
+Code Files:
+
+1. client.c
+2. aws.c
+3. serverA.c
+4. serverB.c
+5. serverC.c
+
+Implementation of files:
+
+*** Client.c:
+
+* Create, bind to and listen to the TCP socket.
+* Establish a TCP connection to the AWS server.
+* Send the data stored in a file with a function code for sum/max/min/sos.
+* Receive the result from the AWS server.
+* Finally close the socket.
+
+*** AWS server:
+
+* Create, bind to and listen to the TCP socket.
+* Establish a TCP connection to the client.
+* Receive the data from the client and divide the data into three parts as data is a 	       multiple of three.
+* Create and bind to the three UDP socket each for a backend serverA/B/C.
+* Send the divided data with a function code for sum/max/min/sos to each of the backend server A/B/C.
+* Receive the computed result from three of the backend servers and aggregate the result    by performing computations.
+* Send the final result to the client via TCP connection. 
+* Finally close the socket.
+
+*** Backend Server A/B/C
+
+* Create and bind to the UDP socket with AWS server.
+* Receive the data from the AWS server with a function code for sum/max/min/sos  and perform the computations according to the received function code.
+* Send the computed data value to the AWS server.
+* Finally close the socket.
+
+—————————————————————————————————————————————————————————————————————————————————————————
+
+3. What the TA should do to run your programs.
+
+* Open 5 terminal windows.
+* cd to the project directory in all terminal directory.
+* Then type : make all 
+     To compile all the files and create executables.
+1.   In first terminal window, type:
+      make serverA: to run server A program.
+2.   In second terminal window, type:
+      make serverB: to run server B program.
+3.   In third terminal window, type:
+      make serverC: to run server C program.
+4.   In fourth terminal window, type:
+      make aws: to run server AWS program.
+5.   In fifth terminal window, type:
+      ./client <function name>: to run server client program.
+
+Function name: sum/max/sos/min
+
+—————————————————————————————————————————————————————————————————————————————————————————
+
+
+4. Format of all the messages exchanged.
+
+The client sends three packets, first contains the function name, second contains the number of elements and third contains the elements itself.
+
+The AWS firstly divides the number of elements N to N/3 and then sends it to backend servers. Therefore, AWS sends three packets, to each of backend server A/B/C and the first one contains the function name, second contains the number of elements and third contains the elements itself.
+
+The Backend Server A/B/C each performs computations on their data and send the computed data in one packet to AWS server.
+
+The AWS aggregates the results received by all three Backend Servers A/B/C and then send final result in a packet back to the client.
+
+—————————————————————————————————————————————————————————————————————————————————————————
+
+5. Reused Code: 
+    I have used client - server stream socket and datagram socket block code from Beej guide
